@@ -5,7 +5,7 @@ corner_r = 3; // corner radius
 plate_thickness = 4;
 // positions of the wheel/motor mountings (not the wheels themselves)
 back_wheel_pos = [53, 0];
-front_wheel_pos = [52.25, 172.78];
+front_wheel_pos = [53, 180];
 
 // Widths on the plate are measured from the main axis => they are halved!
 
