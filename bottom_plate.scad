@@ -14,7 +14,7 @@ module base_plate_2d() {
             [back_wheel_pos.x, -back_plate_length/2],
             [back_wheel_pos.x, back_plate_length/2],
 
-            // middle plate for the battery
+            // middle plate for the accessories
             [middle_plate_width, back_plate_length/2 + 10],
             [middle_plate_width, front_wheel_pos.y-30-15-15],
 
@@ -35,39 +35,79 @@ module base_plate_2d() {
     }
 }
 
-module holes_2d() {
-    module _hole(pos, d = m3_d) {
-        translate([pos.x, pos.y, 0]) circle(d=m3_d);
+module _hole(pos) {
+    translate([pos.x, pos.y, 0-e]) conic_hole_m3(plate_thickness + 2*e);
+}
+
+module misc_holes() {
+    // servo plate
+    // mirror_copy() _hole([40, 177.36]);
+    // _hole([0, 144.37]);
+
+    // TODO: bumper holes
+}
+
+module accessory_holes() {
+    module _grid() {
+        // hole_count = [
+        //     floor((max_pos.x - min_pos.x) / accessory_hole_spacing),
+        //     floor((max_pos.y - min_pos.y) / accessory_hole_spacing)
+        // ];
+        // center = (min_pos + max_pos) / 2;
+        // bottom_left = center - (hole_count / 2 * accessory_hole_spacing);
+
+        hole_count = [
+            ceil(middle_plate_width * 2 / accessory_hole_spacing),
+            ceil(front_wheel_pos.y / accessory_hole_spacing)
+        ];
+        min_x = floor(-middle_plate_width / accessory_hole_spacing) * accessory_hole_spacing;
+
+        for (
+            x = [min_x : accessory_hole_spacing : middle_plate_width],
+            y = [-5 : accessory_hole_spacing : front_wheel_pos.y]
+        ) {
+            _hole([x, y]);
+        }
     }
 
-    mirror_copy() {
-        // screw holes
-        _hole([36, -28.35]);
-        _hole([63.75, 87.88]);
-        _hole([40, 177.36]);
-        // hole for the front wheel steering mechanism
-        _hole(front_wheel_pos);
-    }
-    // screw hole
-    _hole([0, 144.37]);
+    intersection() {
+        _grid();
+        // the polygon where we want the holes
+        translate([0,0,-e]) mirror_copy() linear_extrude(plate_thickness + 2*e)
+            polygon([
+                // from the bottom right
+                [0-e, back_plate_length/2 - 10],
+                [back_wheel_pos.x, back_plate_length/2 - 10],
+                [back_wheel_pos.x, back_plate_length/2 + 10],
 
-    // holes for tying the battery to the plate
-    module _bat_hole(pos) {
-        translate(pos) rounded_rect([14, 5], r=1.5, center=true);
-    }
-    middle_plate_center_y = (back_plate_length/2 + 10)/2 + (front_wheel_pos.y-30-15-15)/2;
-    mirror_copy() {
-        _bat_hole([35, middle_plate_center_y - battery_width/2 - 2]);
-        _bat_hole([35, middle_plate_center_y + battery_width/2 + 2]);
+                [middle_plate_width, back_plate_length/2 + 10],
+                [middle_plate_width, front_wheel_pos.y-30-15-15],
+
+                [steering_cutout_width, front_wheel_pos.y-60],
+                [steering_cutout_width, front_wheel_pos.y-30],
+                [0-e, front_wheel_pos.y-30],
+            ]);
     }
 }
 
+module kingpin_holes() {
+    pocket_height = 2;
+    screw_head_d = 7;
+
+    module _kingpin_hole() {
+        cylinder(h = plate_thickness + e, d = m3_d);
+        translate([0, 0, 0-e]) cylinder(h = pocket_height+e, d = screw_head_d + 0.2);
+    }
+
+    mirror_copy()
+        translate([front_wheel_pos.x, front_wheel_pos.y, 0])
+            _kingpin_hole();
+}
+
 module motor_holder() {
-    // TODO: we want the underframe to be lower, so we need to raise the motor holder
-    // but when we do it, we must also raise the front wheels
     module _holder() {
         difference() {
-            translate([0, -motor_d/2, 0]) cube([motor_holder_len, motor_d, motor_d*0.4]);
+            translate([0, -(motor_d-1)/2, 0]) cube([motor_holder_len, motor_d-1, motor_d*0.4]);
             translate([0-e, 0, motor_d/2]) rotate([0, 90, 0]) cylinder(r = motor_d/2, h=motor_holder_len+2*e);
         }
     }
@@ -75,24 +115,28 @@ module motor_holder() {
     translate([-motor_holder_len, 0, 0]) _holder();
     translate([-motor_len, 0, 0]) _holder();
 }
-module motor_holder_holes_2d() {
+module motor_holder_holes() {
     mirror_copy([0,1,0])
-        translate([
+        _hole([
             -motor_holder_len/2,
-            motor_d/2 + motor_bracket_thickness + motor_holder_screw_hole_margin + m3_d/2,
-        ])
-        circle(d=m3_d);
+            motor_d/2 + motor_bracket_screw_hole_margin,
+        ]);
 }
 
-// the plate with holes
-linear_extrude(height = plate_thickness)
-    difference() {
-        base_plate_2d();
-        holes_2d();
-        mirror_copy() translate(back_wheel_pos) motor_holder_holes_2d();
+difference() {
+    union() {
+        // base plate
+        linear_extrude(height = plate_thickness) base_plate_2d();
+        // motor holders
+        mirror_copy()
+            translate([back_wheel_pos.x, back_wheel_pos.y, plate_thickness])
+                motor_holder();
     }
 
-// motor holders
-mirror_copy()
-    translate([back_wheel_pos.x, back_wheel_pos.y, plate_thickness])
-        motor_holder();
+    // holes
+    misc_holes();
+    mirror_copy()
+        translate(back_wheel_pos) motor_holder_holes();
+    kingpin_holes();
+    accessory_holes();
+}
