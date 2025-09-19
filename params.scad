@@ -24,3 +24,5 @@ motor_holder_len = 15;
 motor_bracket_screw_hole_margin = 2.75;
 
 accessory_hole_spacing = 20;
+
+servo_plate_support_height = 20;

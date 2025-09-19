@@ -34,3 +34,9 @@ module conic_hole_m3(height) {
         cylinder(cone_h, d1 = cone_d, d2 = 0);
     }
 }
+
+module m3_square_nut_hole() {
+    hole_length = 19 - plate_thickness;  // enough for an M3x16 DIN7991 screw
+    translate([0,0, -hole_length+e]) cylinder(d=m3_d, h=hole_length+e);
+    translate([0,0, -6]) cube([6, 6, 2], center=true);
+}
