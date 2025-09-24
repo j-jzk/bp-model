@@ -1,4 +1,5 @@
 include <params.scad>
+include <MCAD/regular_shapes.scad>
 
 module mirror_copy(v = [1,0,0]) {
     children();
@@ -39,4 +40,8 @@ module m3_square_nut_hole() {
     hole_length = 19 - plate_thickness;  // enough for an M3x16 DIN7991 screw
     translate([0,0, -hole_length+e]) cylinder(d=m3_d, h=hole_length+e);
     translate([0,0, -6]) cube([6, 6, 2], center=true);
+}
+
+module m3_nut_hexagon() {
+    hexagon(radius=5.5/2/cos(30));
 }

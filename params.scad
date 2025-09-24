@@ -26,3 +26,15 @@ motor_bracket_screw_hole_margin = 2.75;
 accessory_hole_spacing = 20;
 
 servo_plate_support_height = 20;
+// hole positions for attaching the servo plate to the bottom plate;
+// when edited, you should probably adjust the hard-coded parameters of the supports in bottom_plate.scad
+servo_plate_holes = [
+    // T-shaped support, left side
+    [-13.5 - 25 + 6, 15.5 + 3 - e],
+    [-13.5 - (25-7)/2 - 3 + e, 0],
+    // T-shaped support, right side
+    [13.5 + 25 - 6, 15.5 + 3 - e],
+    [13.5 + (25-7)/2 + 3 - e, 0],
+    // horizontal support
+    [0, -28-3+e]
+];

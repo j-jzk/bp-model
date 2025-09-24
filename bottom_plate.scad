@@ -85,9 +85,10 @@ module accessory_holes() {
 module kingpin_holes() {
     pocket_height = 2;
     screw_head_d = 7;
+    screw_d = 4 + 0.1;  // diameter 4 mm + tolerance
 
     module _kingpin_hole() {
-        cylinder(h = plate_thickness + e, d = m3_d);
+        cylinder(h = plate_thickness + e, d = screw_d);
         translate([0, 0, 0-e]) cylinder(h = pocket_height+e, d = screw_head_d + 0.2);
     }
 
@@ -133,7 +134,7 @@ module servo_plate_support() {
                 ]);
 
         // horizontal rectangle
-        translate([0, -26 - w/2]) square([50, w], center=true);
+        translate([0, -28 - w/2]) square([50, w], center=true);
     }
 
     difference() {
@@ -141,11 +142,9 @@ module servo_plate_support() {
 
         // nut holes
         translate([0, 0, servo_plate_support_height]) {
-            mirror_copy() {
-                translate([-13.5-25+6, 15.5+3-e]) m3_square_nut_hole();
-                translate([-13.5 - (25-w)/2 - 3 + e, 0]) m3_square_nut_hole();
+            for (pos = servo_plate_holes) {
+                translate(pos) m3_square_nut_hole();
             }
-            translate([0, -26-3+e]) m3_square_nut_hole();
         }
     }
 }
