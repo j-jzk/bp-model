@@ -1,6 +1,6 @@
 e = 0.01;  // epsilon
 m3_d = 3.2;  // hole diameter for an M3 screw
-corner_r = 3; // corner radius
+corner_r = 4; // corner radius
 
 plate_thickness = 5;
 // positions of the wheel/motor mountings (not the wheels themselves)
@@ -40,3 +40,9 @@ servo_plate_holes = [
     // horizontal support
     [0, -28-3+e]
 ];
+
+bumper_socket_width = 40;
+bumper_socket_length = 9 + 1; // 9 + tolerance
+bumper_hole_margin = 5;
+bumper_hole_x = 32; // X coordinate of the left and right hole
+bumper_hole_d = m3_d;
