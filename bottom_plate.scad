@@ -24,8 +24,9 @@ module base_plate_2d() {
             // front wheel mounting point
             [front_wheel_pos.x+m3_d+5, front_wheel_pos.y],
 
-            [steering_cutout_width, front_wheel_pos.y+30],
-            [0-e, front_wheel_pos.y+30],
+            [bumper_socket_width, front_wheel_pos.y+30],
+            [bumper_socket_width, front_wheel_pos.y+30 + bumper_socket_length],
+            [0-e, front_wheel_pos.y+30 + bumper_socket_length],
         ]);
     }
 
@@ -159,6 +160,20 @@ module servo_plate_support() {
     }
 }
 
+module bumper_holes() {
+    module _bumper_hole(pos) {
+        // TODO: verify the shape
+        translate(pos + [0,0,-e]) cylinder(d=bumper_hole_d, h=plate_thickness + 2*e);
+    }
+
+    translate([0, front_wheel_pos.y+30 + bumper_socket_length - bumper_hole_margin, 0])
+        union() {
+            _bumper_hole([-bumper_hole_x, 0, 0]);
+            _bumper_hole([0, 0, 0]);
+            _bumper_hole([bumper_hole_x, 0, 0]);
+        }
+}
+
 difference() {
     union() {
         // base plate
@@ -176,5 +191,5 @@ difference() {
         translate(back_wheel_pos) motor_holder_holes();
     kingpin_holes();
     accessory_holes();
-    // TODO: bumper holes
+    bumper_holes();
 }

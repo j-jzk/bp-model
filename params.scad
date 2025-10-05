@@ -40,3 +40,9 @@ servo_plate_holes = [
     // horizontal support
     [0, -28-3+e]
 ];
+
+bumper_socket_width = 40;
+bumper_socket_length = 10; // TODO: measure!
+bumper_hole_margin = 5; // TODO: measure!
+bumper_hole_x = 32; // X coordinate of the left and right hole
+bumper_hole_d = m3_d;
