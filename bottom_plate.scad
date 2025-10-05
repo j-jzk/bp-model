@@ -94,22 +94,36 @@ module kingpin_holes() {
 }
 
 module motor_holder() {
-    module _holder() {
+    translate([-motor_len, 0, 0])
         difference() {
-            translate([0, -(motor_d-1)/2, 0]) cube([motor_holder_len, motor_d-1, motor_d*0.4]);
-            translate([0-e, 0, motor_d/2]) rotate([0, 90, 0]) cylinder(r = motor_d/2, h=motor_holder_len+2*e);
+            translate([0, -(motor_d-1)/2, 0]) cube([motor_len, motor_d-1, motor_d*0.4]);
+            translate([0-e, 0, motor_d/2]) rotate([0, 90, 0]) cylinder(r = motor_d/2, h=motor_len+2*e);
         }
-    }
-
-    translate([-motor_holder_len, 0, 0]) _holder();
-    translate([-motor_len, 0, 0]) _holder();
 }
 module motor_holder_holes() {
+    // screw holes for the bracket
     mirror_copy([0,1,0])
         _hole([
-            -motor_holder_len/2,
+            -motor_bracket_len/2,
             motor_d/2 + motor_bracket_screw_hole_margin,
         ]);
+
+    // girder for the cable tie
+    // variant 1: the hole peeks through the bottom
+    // translate([-motor_len + 10, 0, motor_d/2 ])
+    //     rotate(90, [0,1,0])
+    //         difference() {
+    //             cylinder(h = motor_cable_tie_width, r = motor_d/2 + motor_cable_tie_thickness, center=true);
+    //             cylinder(h = motor_cable_tie_width, r = motor_d/2, center=true);
+    //         }
+    
+    // variant 2: the hole is fully hidden, larger D
+    translate([-motor_len + 10, 0, motor_d/2 + 13])
+        rotate(90, [0,1,0])
+            difference() {
+                cylinder(h = motor_cable_tie_width, r = motor_d/2 + 10 + motor_cable_tie_thickness, center=true);
+                cylinder(h = motor_cable_tie_width, r = motor_d/2 + 10, center=true);
+            }
 }
 
 module servo_plate_support() {

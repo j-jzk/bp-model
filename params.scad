@@ -20,8 +20,10 @@ steering_cutout_width = 35;
 
 motor_d = 25;
 motor_len = 47.8;
-motor_holder_len = 15;
+motor_bracket_len = 15;
 motor_bracket_screw_hole_margin = 2.75;
+motor_cable_tie_thickness = 1 + 0.5; // with tolerance
+motor_cable_tie_width = 3.5 + 0.5; // with tolerance
 
 accessory_hole_spacing = 20;
 
