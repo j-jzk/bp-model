@@ -1,3 +1,7 @@
+// circle and arc resolution
+$fa = $preview ? 12 : 5;
+$fs = $preview ? 2 : 0.7;
+
 e = 0.01;  // epsilon
 m3_d = 3.2;  // hole diameter for an M3 screw
 corner_r = 4; // corner radius

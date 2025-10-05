@@ -27,7 +27,6 @@ module screw_holes() {
                 conic_hole_m3(plate_thickness + 2*e);
     }
 
-    // TODO: not hardcoded values
     for (pos = servo_plate_holes) {
         _hole(pos);
     }
