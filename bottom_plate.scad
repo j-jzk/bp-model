@@ -41,22 +41,17 @@ module _hole(pos) {
 
 module accessory_holes() {
     module _grid() {
-        // hole_count = [
-        //     floor((max_pos.x - min_pos.x) / accessory_hole_spacing),
-        //     floor((max_pos.y - min_pos.y) / accessory_hole_spacing)
-        // ];
-        // center = (min_pos + max_pos) / 2;
-        // bottom_left = center - (hole_count / 2 * accessory_hole_spacing);
-
         hole_count = [
             ceil(middle_plate_width * 2 / accessory_hole_spacing),
             ceil(front_wheel_pos.y / accessory_hole_spacing)
         ];
-        min_x = floor(-middle_plate_width / accessory_hole_spacing) * accessory_hole_spacing;
+        min_x = floor(-middle_plate_width / accessory_hole_spacing) * accessory_hole_spacing - accessory_hole_spacing/2;
+        // position min_y such that the middle of the y axis is in between two rows of holes
+        min_y = (front_wheel_pos.y / 2) % accessory_hole_spacing - accessory_hole_spacing/2;
 
         for (
             x = [min_x : accessory_hole_spacing : middle_plate_width],
-            y = [-5 : accessory_hole_spacing : front_wheel_pos.y]
+            y = [min_y : accessory_hole_spacing : front_wheel_pos.y]
         ) {
             _hole([x, y]);
         }
@@ -69,15 +64,16 @@ module accessory_holes() {
             polygon([
                 // from the bottom right
                 [0-e, back_plate_length/2 - 10],
-                [back_wheel_pos.x, back_plate_length/2 - 10],
-                [back_wheel_pos.x, back_plate_length/2 + 10],
+                [back_wheel_pos.x - 10, back_plate_length/2 - 10],
+                [back_wheel_pos.x - 10, back_plate_length/2 + 10],
 
-                [middle_plate_width, back_plate_length/2 + 10],
-                [middle_plate_width, front_wheel_pos.y-30-15-15],
+                [middle_plate_width - 10, back_plate_length/2 + 10],
+                [middle_plate_width - 10, front_wheel_pos.y-30-15-15],
 
-                [steering_cutout_width, front_wheel_pos.y-60],
-                [steering_cutout_width, front_wheel_pos.y-30],
-                [0-e, front_wheel_pos.y-30],
+                [steering_cutout_width, front_wheel_pos.y-70],
+                [steering_cutout_width, front_wheel_pos.y-30-15],
+                [0-e, front_wheel_pos.y-30-15]
+                // [0-e, front_wheel_pos.y-30],
             ]);
     }
 }
