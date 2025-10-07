@@ -95,9 +95,10 @@ module kingpin_holes() {
 }
 
 module motor_holder() {
+    // the side should be cca 0.8-1.2 mm wide for printing
     translate([-motor_len, 0, 0])
         difference() {
-            translate([0, -(motor_d-1)/2, 0]) cube([motor_len, motor_d-1, motor_d*0.4]);
+            translate([0, -(motor_d-1)/2, 0]) cube([motor_len, motor_d-1, motor_d*0.25]);
             translate([0-e, 0, motor_d/2]) rotate([0, 90, 0]) cylinder(r = motor_d/2, h=motor_len+2*e);
         }
 }
