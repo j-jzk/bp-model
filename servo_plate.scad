@@ -42,7 +42,7 @@ module servo_mount() {
 
     // screw holes
     module _screw_hole() {
-        cylinder(d=m3_d, h=plate_thickness + 2*e);
+        cylinder(d=2.1, h=plate_thickness + 2*e);
     }
 
     mirror_copy() {
