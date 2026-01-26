@@ -38,16 +38,17 @@ accessory_hole_spacing = 20;
 
 servo_plate_support_height = 20;
 // hole positions for attaching the servo plate to the bottom plate;
-// when edited, you should probably adjust the hard-coded parameters of the supports in bottom_plate.scad
-servo_plate_holes = [
+// when edited, you should probably adjust the hard-coded parameters of the supports in servo_plate.scad.
+// origin is assumed to be on the front wheel axis
+servo_plate_hole_poss = [
     // T-shaped support, left side
-    [-13.5 - 25 + 6, 15.5 + 3 - e],
-    [-13.5 - (25-7)/2 - 3 + e, 0],
+    [-13.5 - 10 + 6, 15.5 + 4 + e],
+    [-13.5 - (25-7)/2 - 4 - e, 0],
     // T-shaped support, right side
-    [13.5 + 25 - 6, 15.5 + 3 - e],
-    [13.5 + (25-7)/2 + 3 - e, 0],
+    [13.5 + 10 - 6, 15.5 + 4 + e],
+    [13.5 + (25-7)/2 + 4 + e, 0],
     // horizontal support
-    [0, -28-3+e]
+    // [0, -28-3+e]
 ];
 
 bumper_socket_width = 40;

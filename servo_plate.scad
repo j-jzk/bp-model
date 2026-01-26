@@ -21,18 +21,6 @@ module base_shape_2d() {
             ]);
 }
 
-module screw_holes() {
-    module _hole(pos) {
-        translate([pos.x, pos.y, plate_thickness+e])
-            rotate([180, 0, 0])
-                conic_hole_m3(plate_thickness + 2*e);
-    }
-
-    for (pos = servo_plate_holes) {
-        _hole(pos);
-    }
-}
-
 module servo_mount() {
     // origin is the rotor's axis
     // dimensions accoding to https://futaba.uk/products/fut05102732-3
@@ -67,10 +55,44 @@ module kingpin_holes() {
         translate([front_wheel_pos.x, 0]) _kingpin_hole();
 }
 
-difference() {
-    linear_extrude(height = plate_thickness) base_shape_2d();
+module supports() {
+    // width/thickness of the rectangles; must be enough to accomodate holes for the nuts
+    w = 7;
 
-    screw_holes();
+    module _2d() {
+        // T-shaped part
+        mirror_copy()
+            translate([13.5, 15.5])
+                polygon([
+                    // horizontal part
+                    [0, 0], [0, w], [20, w], [20, 0],
+                    // vertical part
+                    [(25-w)/2, 0], [(25-w)/2, -20], [(25+w)/2, -20], [(25+w)/2, 0],
+                ]);
+
+        // horizontal rectangle
+        // translate([0, -28 - w/2]) square([50, w], center=true);
+    }
+
+    mirror([0,0,1])
+        difference() {
+            linear_extrude(height = servo_plate_support_height) _2d(); 
+
+            // nut holes
+            translate([0, 0, servo_plate_support_height]) {
+                for (pos = servo_plate_hole_poss) {
+                    translate(pos) m3_square_nut_hole();
+                }
+            }
+        }
+}
+
+difference() {
+    union() {
+        linear_extrude(height = plate_thickness) base_shape_2d();
+        supports();
+    }
+
     // y=10.2894 is a value calculated in FreeCAD
     translate([0, 10.2894, 0-e]) servo_mount();
     kingpin_holes();

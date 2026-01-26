@@ -128,37 +128,11 @@ module motor_holder_holes() {
             }
 }
 
-module servo_plate_support() {
-    // assume the origin is on the front wheel axis
-
-    // width/thickness of the rectangles; must be enough to accomodate holes for the nuts
-    w = 7;
-
-    module _2d() {
-        // T-shaped part
-        mirror_copy()
-            translate([13.5, 15.5])
-                polygon([
-                    // horizontal part
-                    [0, 0], [0, w], [25, w], [25, 0],
-                    // vertical part
-                    [(25-w)/2, 0], [(25-w)/2, -20], [(25+w)/2, -20], [(25+w)/2, 0],
-                ]);
-
-        // horizontal rectangle
-        translate([0, -28 - w/2]) square([50, w], center=true);
-    }
-
-    difference() {
-        linear_extrude(height = servo_plate_support_height) _2d(); 
-
-        // nut holes
-        translate([0, 0, servo_plate_support_height]) {
-            for (pos = servo_plate_holes) {
-                translate(pos) m3_square_nut_hole();
-            }
+module servo_plate_screw_holes() {
+    translate([0, front_wheel_pos.y])
+        for (pos = servo_plate_hole_poss) {
+            _hole(pos);
         }
-    }
 }
 
 module bumper_holes() {
@@ -178,8 +152,6 @@ difference() {
         mirror_copy()
             translate([back_wheel_pos.x, back_wheel_pos.y, plate_thickness])
                 motor_holder();
-
-        translate([0, front_wheel_pos.y, plate_thickness]) servo_plate_support();
     }
 
     // holes
@@ -188,4 +160,5 @@ difference() {
     kingpin_holes();
     accessory_holes();
     bumper_holes();
+    servo_plate_screw_holes();
 }
