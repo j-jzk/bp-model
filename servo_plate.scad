@@ -11,10 +11,11 @@ module base_shape_2d() {
             polygon([
                 [0-e, -36],
                 [steering_cutout_width, -36],
-                [steering_cutout_width, -30],
+                [steering_cutout_width, -wheel_mount_length],
 
                 [front_wheel_pos.x+m3_d+5, 0],
 
+                [steering_cutout_width, wheel_mount_length],
                 [steering_cutout_width, 30],
                 [0-e, 30],
             ]);

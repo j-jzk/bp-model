@@ -16,17 +16,17 @@ module base_plate_2d() {
 
             // middle plate for the accessories
             [middle_plate_width, back_plate_length/2 + 10],
-            [middle_plate_width, front_wheel_pos.y-30-15-15],
+            [middle_plate_width, middle_plate_maxy],
 
             // cut-out for the front wheels to steer
-            [steering_cutout_width, front_wheel_pos.y-30-15],
-            [steering_cutout_width, front_wheel_pos.y-30],
+            [steering_cutout_width, middle_plate_maxy+15],
+            [steering_cutout_width, front_wheel_pos.y-wheel_mount_length],
             // front wheel mounting point
             [front_wheel_pos.x+m3_d+5, front_wheel_pos.y],
 
-            [bumper_socket_width, front_wheel_pos.y+30],
-            [bumper_socket_width, front_wheel_pos.y+30 + bumper_socket_length],
-            [0-e, front_wheel_pos.y+30 + bumper_socket_length],
+            [bumper_socket_width, front_wheel_pos.y + wheel_mount_length],
+            [bumper_socket_width, front_wheel_pos.y + wheel_mount_length + bumper_socket_length],
+            [0-e, front_wheel_pos.y + wheel_mount_length + bumper_socket_length],
         ]);
     }
 
@@ -69,7 +69,7 @@ module accessory_holes() {
                 [back_wheel_pos.x - 10, back_plate_length/2 + 10],
 
                 [middle_plate_width - 10, back_plate_length/2 + 10],
-                [middle_plate_width - 10, front_wheel_pos.y-30-15-15],
+                [middle_plate_width - 10, middle_plate_maxy],
 
                 [steering_cutout_width, front_wheel_pos.y-70],
                 [steering_cutout_width, front_wheel_pos.y-30-15],
@@ -162,7 +162,7 @@ module servo_plate_support() {
 }
 
 module bumper_holes() {
-    translate([0, front_wheel_pos.y+30 + bumper_socket_length - bumper_hole_margin, 0])
+    translate([0, front_wheel_pos.y + wheel_mount_length + bumper_socket_length - bumper_hole_margin, 0])
         union() {
             _hole([-bumper_hole_x, 0]);
             _hole([0, 0]);

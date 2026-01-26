@@ -16,11 +16,16 @@ front_wheel_pos = [53, 180];
 // the back plate on which the motors and back wheels are mounted;
 // needs to be long enough for the wheels to fit
 back_plate_length = 36*2;
-// the plate on which the battery is mounted
-middle_plate_width = 75;
 // width of the cutout behind and in front of the front wheels for them to
 // steer freely
 steering_cutout_width = 35;
+// Y axis length of the triangle on which the front wheels are mounted (in
+// either direction => the actual length is 2*wheel_mount_length)
+wheel_mount_length = 20;
+// the plate on which the battery is mounted
+middle_plate_width = 75;
+// the Y coordinate of the outer corner
+middle_plate_maxy = front_wheel_pos.y - wheel_mount_length - 25 - 15;
 
 motor_d = 25;
 motor_len = 47.8;
@@ -46,7 +51,7 @@ servo_plate_holes = [
 ];
 
 bumper_socket_width = 40;
-bumper_socket_length = 9 + 1; // 9 + tolerance
+bumper_socket_length = 24 + 1; // min 9 + tolerance
 bumper_hole_margin = 5;
 bumper_hole_x = 32; // X coordinate of the left and right hole
 bumper_hole_d = m3_d;
