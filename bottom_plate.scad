@@ -86,7 +86,7 @@ module kingpin_holes() {
 
     module _kingpin_hole() {
         cylinder(h = plate_thickness + e, d = screw_d);
-        translate([0, 0, 0-e]) cylinder(h = pocket_height+e, d = screw_head_d + 0.2);
+        translate([0, 0, 0-e]) cylinder(h = pocket_height+e, d = screw_head_d + 0.3);
     }
 
     mirror_copy()

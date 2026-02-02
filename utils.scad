@@ -25,8 +25,8 @@ module rounded_rect(size, r, center=false) {
 
 module conic_hole_m3(height) {
     // dimensions according to DIN 7991 + 0.2 mm for tolerance
-    cone_d = 6 + 0.2;
-    cone_h = 1.7 + 0.2;
+    cone_d = 6 + 0.4;
+    cone_h = 1.7 + 0.4;
 
     union() {
         // hole
@@ -43,5 +43,5 @@ module m3_square_nut_hole() {
 }
 
 module m3_nut_hexagon() {
-    hexagon(radius=5.5/2/cos(30));
+    hexagon(radius=5.5/2/cos(30) + 0.1);
 }

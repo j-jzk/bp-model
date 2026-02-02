@@ -26,8 +26,8 @@ module servo_mount() {
     // dimensions accoding to https://futaba.uk/products/fut05102732-3
 
     // servo hole
-    translate([-10, -29.9, 0]) // translate the rotor axis to [0,0]
-        cube([20, 40, plate_thickness + 2*e]);
+    translate([-10 - 1.0/2, -29.9 - 1.0/2, 0]) // translate the rotor axis to [0,0]
+        cube([20 + 1, 40 + 1, plate_thickness + 2*e]);
 
     // screw holes
     module _screw_hole() {
