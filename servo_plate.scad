@@ -9,14 +9,14 @@ module base_shape_2d() {
     offset(r = corner_r) offset(r = -corner_r) // rounded corners
         mirror_copy()
             polygon([
-                [0-e, -36],
-                [steering_cutout_width, -36],
+                [0-e, -30],
+                [steering_cutout_width, -30],
                 [steering_cutout_width, -wheel_mount_length],
 
                 [front_wheel_pos.x+m3_d+5, 0],
 
-                [steering_cutout_width, wheel_mount_length],
-                [steering_cutout_width, 30],
+                [bumper_socket_width, wheel_mount_length],
+                [bumper_socket_width, 30],
                 [0-e, 30],
             ]);
 }
