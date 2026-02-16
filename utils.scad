@@ -24,15 +24,15 @@ module rounded_rect(size, r, center=false) {
 }
 
 module conic_hole_m3(height) {
-    // dimensions according to DIN 7991 + 0.2 mm for tolerance
-    cone_d = 6 + 0.4;
-    cone_h = 1.7 + 0.4;
+    // dimensions according to DIN 965 + tolerance
+    cone_d = 5.6 + 0.5;
+    cone_h = 1.65 + 0.5;
 
     union() {
         // hole
         cylinder(height, d = m3_d);
         // cone
-        cylinder(cone_h, d1 = cone_d, d2 = 0);
+        cylinder(cone_h, d1 = cone_d, d2 = m3_d);
     }
 }
 
